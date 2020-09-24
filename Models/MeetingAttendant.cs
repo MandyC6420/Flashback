@@ -7,11 +7,11 @@ namespace Flashback.Models
         [Key]
         public int MeetingAttendantId { get; set; }
         public int MeetingId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public Meeting Meeting { get; set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser User { get; set; }
 
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Flashback.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +10,11 @@ namespace Flashback.Data
             : base(options)
         {
         }
+        public DbSet<ApplicationUser> User { get; set; }
+        public DbSet<Meeting> Meeting { get; set; }
+        public DbSet<Message> Message { get; set; }
+        public DbSet<MeetingAttendant> MeetingAttendant { get; set; }
+
+
     }
 }

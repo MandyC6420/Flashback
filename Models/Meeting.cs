@@ -8,13 +8,13 @@ namespace Flashback.Models
     {
         [Key]
         public int MeetingId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public string VenueChannel { get; set; }
         public string Agenda { get; set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser User { get; set; }
 
         public List<Message> Messages { get; set; }
 
