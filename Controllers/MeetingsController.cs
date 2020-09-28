@@ -78,6 +78,11 @@ namespace Flashback.Controllers
             return View(meeting);
         }
 
+        public async Task<ActionResult> JoinMeeting(int id)
+        {
+            return View();
+        }
+
         // GET: Meetings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
