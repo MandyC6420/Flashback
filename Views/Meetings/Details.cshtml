@@ -40,7 +40,7 @@
             </dd>*@
     </dl>
 </div>
-<a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id=""><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a>
+<a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id="@Model.MeetingId"><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
     <a asp-action="Index">Back to List</a>

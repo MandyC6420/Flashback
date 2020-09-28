@@ -80,7 +80,22 @@ namespace Flashback.Controllers
 
         public async Task<ActionResult> JoinMeeting(int id)
         {
-            return View();
+            //Get the current user
+            var user = await GetCurrentUserAsync();
+
+            int MeetingId = 0;
+            string UserId = null;
+
+            MeetingAttendant Attendees = new MeetingAttendant();
+            {
+                MeetingId = MeetingId;
+                UserId = UserId;
+            };
+            _context.Add(Attendees);
+            //await _context.SaveChangesAsync();
+
+            ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "UserId", MeetingId);
+            return View(Attendees);
         }
 
         // GET: Meetings/Edit/5
