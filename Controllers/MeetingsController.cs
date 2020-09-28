@@ -26,8 +26,13 @@ namespace Flashback.Controllers
         // GET: Meetings
         public async Task<IActionResult> Index()
         {
+
+
             var applicationDbContext = _context.Meeting.Include(m => m.User);
+
+
             return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: Meetings/Details/5
@@ -52,7 +57,7 @@ namespace Flashback.Controllers
         // GET: Meetings/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
+
             return View();
         }
 

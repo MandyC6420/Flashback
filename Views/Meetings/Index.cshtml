@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<Flashback.Models.Meeting>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
 <h1>Index</h1>
 
@@ -13,47 +11,48 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StartDateTime)
+                Start Date/Time
+                @*@Html.DisplayNameFor(model => model.StartDateTime)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDateTime)
+                End Date/Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VenueChannel)
+                Meeting Venue
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Agenda)
+                Agenda
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
+            @*<th>*@
+            <!--@Html.DisplayNameFor(model => model.User)
+            </th>-->
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VenueChannel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Agenda)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MeetingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MeetingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MeetingId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.StartDateTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndDateTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.VenueChannel)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Agenda)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.Id)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.MeetingId">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.MeetingId">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.MeetingId">Delete</a>
+    </td>
+</tr>}
     </tbody>
 </table>
