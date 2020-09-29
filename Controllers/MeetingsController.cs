@@ -92,8 +92,10 @@ namespace Flashback.Controllers
                 Attendees.MeetingId = id;
                 _context.Add(Attendees);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["Message"] = "Join Successful";
+                return RedirectToAction("Details", "Meetings", new { id });
             }
+
             return View();
             //}
 
