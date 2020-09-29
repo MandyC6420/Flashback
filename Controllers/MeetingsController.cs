@@ -26,9 +26,10 @@ namespace Flashback.Controllers
         // GET: Meetings
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUserAsync();
 
-
-            var applicationDbContext = _context.Meeting.Include(m => m.User);
+            //trying to pull the user for my meetings display
+            var applicationDbContext = _context.Meeting.Include(m => m.User).Where(u => u.UserId == user.Id);
 
 
             return View(await applicationDbContext.ToListAsync());
@@ -74,7 +75,7 @@ namespace Flashback.Controllers
                 meeting.UserId = user.Id;
                 _context.Add(meeting);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", meeting.UserId);
             return View(meeting);
@@ -92,7 +93,7 @@ namespace Flashback.Controllers
                 Attendees.MeetingId = id;
                 _context.Add(Attendees);
                 await _context.SaveChangesAsync();
-                ViewData["Message"] = "Join Successful";
+                TempData["Message"] = "Join Successful";
                 return RedirectToAction("Details", "Meetings", new { id });
             }
 
