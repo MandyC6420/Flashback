@@ -1,0 +1,47 @@
+﻿@model Flashback.Models.Meeting
+
+@{ ViewData["Title"] = "Details"; }
+
+<h1>Meeting</h1>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VenueChannel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VenueChannel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Agenda)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Agenda)
+        </dd>
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User)
+            </dt>*@
+        @*<dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.Id)
+            </dd>*@
+    </dl>
+</div>
+<a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id="@Model.MeetingId"><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
