@@ -70,32 +70,47 @@ namespace Flashback.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await GetCurrentUserAsync();
+                meeting.UserId = user.Id;
                 _context.Add(meeting);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", meeting.UserId);
             return View(meeting);
         }
 
-        public async Task<ActionResult> JoinMeeting(int id)
+        public async Task<ActionResult> JoinMeeting([Bind("MeetingAttendantId, MeetingId, UserId")] Meeting meetings, int id)
         {
-            //Get the current user
-            var user = await GetCurrentUserAsync();
-
-            int MeetingId = 0;
-            string UserId = null;
-
-            MeetingAttendant Attendees = new MeetingAttendant();
+            if (ModelState.IsValid)
             {
-                MeetingId = MeetingId;
-                UserId = UserId;
-            };
-            _context.Add(Attendees);
+                MeetingAttendant Attendees = new MeetingAttendant();
+
+                //Get the current user
+                var user = await GetCurrentUserAsync();
+                Attendees.UserId = user.Id;
+                Attendees.MeetingId = id;
+                _context.Add(Attendees);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+            //}
+
+
+            //instance of MeetingAttendant 
+            //MeetingAttendant Attendees = new MeetingAttendant();
+
+            //{
+            //    MeetingId = MeetingId,
+            //    UserId = UserId
+            //};
+            //_context.Add(Attendees);
             //await _context.SaveChangesAsync();
 
-            ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "UserId", MeetingId);
-            return View(Attendees);
+            //ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "UserId", Attendees
+            //.MeetingId);
+            //return View(Attendees);
         }
 
         // GET: Meetings/Edit/5
