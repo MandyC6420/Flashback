@@ -18,5 +18,6 @@ namespace Flashback.Models
 
         public List<Message> Messages { get; set; }
 
+        public List<Attendants> Attendants { get; set; }
     }
 }
