@@ -34,15 +34,11 @@ namespace Flashback.Controllers
             var applicationDbContext = new List<Meeting>();
             if (id == null)
             {
-                applicationDbContext = await _context.Meeting.Include(m => m.User).ToListAsync(); ;
+                applicationDbContext = await _context.Meeting.Include(m => m.User).ToListAsync();
             }
-
-            else if (id == 1)
+            else
             {
-                applicationDbContext = await _context.Meeting
-                                            .Include(m => m.User)
-                                            .Where(m => m.User.Id == user.Id)
-                                            .ToListAsync();
+                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
             }
 
 
