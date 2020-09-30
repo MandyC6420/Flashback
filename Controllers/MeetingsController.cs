@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,16 +25,46 @@ namespace Flashback.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Meetings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
 
+            var user = await GetCurrentUserAsync();
+            //trying to pull the user for my meetings display
 
-            var applicationDbContext = _context.Meeting.Include(m => m.User);
+            var applicationDbContext = new List<Meeting>();
+            if (id == null)
+            {
+                applicationDbContext = await _context.Meeting.Include(m => m.User).ToListAsync();
+            }
+            else
+            {
+                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
+            }
 
 
-            return View(await applicationDbContext.ToListAsync());
+            return View(applicationDbContext);
 
         }
+        //public object CurrentFilter;
+        //public object searchString;
+        //public async Task<IActionResult> MyMeetingIndex()
+        //{
+        //    var user = await GetCurrentUserAsync();
+
+        //    //CurrentFilter = searchString;
+
+        //    //trying to pull the user for my meetings display
+        //    var applicationDbContext = _context.Meeting.Include(m => m.User).Where(u => u.UserId == user.Id);
+
+        //    if (!string.IsNullOrEmpty(""))
+        //    {
+
+        //    }
+
+        //    //return RedirectToAction(nameof(Index));
+        //    return View(await applicationDbContext.ToListAsync(), RedirectToAction(nameof(Index)));
+
+        //}
 
         // GET: Meetings/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -74,7 +105,7 @@ namespace Flashback.Controllers
                 meeting.UserId = user.Id;
                 _context.Add(meeting);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", meeting.UserId);
             return View(meeting);
@@ -92,7 +123,7 @@ namespace Flashback.Controllers
                 Attendees.MeetingId = id;
                 _context.Add(Attendees);
                 await _context.SaveChangesAsync();
-                ViewData["Message"] = "Join Successful";
+                TempData["Message"] = "Join Successful";
                 return RedirectToAction("Details", "Meetings", new { id });
             }
 
