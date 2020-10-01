@@ -15,6 +15,7 @@ namespace Flashback.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
+
         public MeetingsController(ApplicationDbContext ctx,
                           UserManager<ApplicationUser> userManager)
         {
@@ -35,56 +36,50 @@ namespace Flashback.Controllers
             if (id == null)
             {
                 applicationDbContext = await _context.Meeting.Include(m => m.User).ToListAsync();
+
+
+                ViewData["createHTML"] = "Create New";
             }
             else
             {
-                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).ThenInclude(m => m.User).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
+                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
             }
 
 
             return View(applicationDbContext);
 
         }
-        //public object CurrentFilter;
-        //public object searchString;
-        //public async Task<IActionResult> MyMeetingIndex()
-        //{
-        //    var user = await GetCurrentUserAsync();
-
-        //    //CurrentFilter = searchString;
-
-        //    //trying to pull the user for my meetings display
-        //    var applicationDbContext = _context.Meeting.Include(m => m.User).Where(u => u.UserId == user.Id);
-
-        //    if (!string.IsNullOrEmpty(""))
-        //    {
-
-        //    }
-
-        //    //return RedirectToAction(nameof(Index));
-        //    return View(await applicationDbContext.ToListAsync(), RedirectToAction(nameof(Index)));
-
-        //}
 
         // GET: Meetings/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, List<Meeting> applicationDbContext)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var user = await GetCurrentUserAsync();
+
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var meeting = await _context.Meeting
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.MeetingId == id);
-            if (meeting == null)
+
+            if (meeting.User == null)
             {
-                return NotFound();
+                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
+
+
             }
+            else
+            {
+
+            }
+
 
             return View(meeting);
         }
-
+        //get a list of meeting attendant where the userid is = to the current user and then look at that list. whatever the var is named (List) List.Where(meetingInList.Id == meeting.id) 
+        //List.Count and after the Where list.count ==boolean if account is 0 if not in meeting 
         // GET: Meetings/Create
         public IActionResult Create()
         {
