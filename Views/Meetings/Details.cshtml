@@ -43,11 +43,19 @@
     <h2>@TempData["Message"]</h2>
 </div>
 
-@*@{ if (MeetingAttendant == true)
+@*@{ Boolean isInMeeting = false;
+    foreach (MeetingAttendant User in Model.Attendants)
+    {
+        if (User.UserId == )
+        {
+            isInMeeting = true;
+        }
+    }
+
+    if (isInMeeting != true)
     {*@
-<a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id="@Model.MeetingId"><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a> } }else {
-@*}
-    }}*@
+<a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id="@Model.MeetingId"><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a>
+
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
