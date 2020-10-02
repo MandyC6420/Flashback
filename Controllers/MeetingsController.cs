@@ -55,26 +55,29 @@ namespace Flashback.Controllers
         {
             var user = await GetCurrentUserAsync();
 
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var meeting = await _context.Meeting
+                .Include(m => m.Attendants)
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.MeetingId == id);
 
-            if (meeting.User == null)
+            var UserInMeeting = await _context.MeetingAttendant
+                            .Where(ma => ma.MeetingId == id)
+                            .Where(ma => ma.UserId == user.Id)
+                            .ToListAsync();
+
+            if (UserInMeeting.Count() == 0)
             {
-                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
-
-
+                ViewBag.isAttending = false;
             }
             else
             {
-
+                ViewBag.isAttending = true;
             }
-
 
             return View(meeting);
         }
