@@ -19,5 +19,10 @@ namespace Flashback.Models
         public List<Message> Messages { get; set; }
 
         public List<MeetingAttendant> Attendants { get; set; }
+
+        internal static object ToPagedList(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

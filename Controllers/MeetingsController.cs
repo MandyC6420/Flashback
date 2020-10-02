@@ -26,24 +26,44 @@ namespace Flashback.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Meetings
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? id, int? pageNumber)
         {
-
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             var user = await GetCurrentUserAsync();
             //trying to pull the user for my meetings display
 
-            var applicationDbContext = new List<Meeting>();
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
+
+            IQueryable<Meeting> applicationDbContext;
             if (id == null)
             {
-                applicationDbContext = await _context.Meeting.Include(m => m.User).ToListAsync();
+                applicationDbContext = _context.Meeting.Include(m => m.User);
 
 
                 ViewData["createHTML"] = "Create New";
             }
             else
             {
-                applicationDbContext = await _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id)).ToListAsync();
+                applicationDbContext = _context.Meeting.Include(m => m.User).Include(m => m.Attendants).Where(m => m.Attendants.Any(a => a.UserId == user.Id));
             }
+
+            int pageSize = 3;
+
+
+
+            return View(await PaginatedList<Meeting>.CreateAsync(applicationDbContext.AsNoTracking(), pageNumber ?? 1, pageSize));
 
 
             return View(applicationDbContext);
