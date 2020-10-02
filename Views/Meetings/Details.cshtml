@@ -43,13 +43,12 @@
     <h2>@TempData["Message"]</h2>
 </div>
 
-@if (@Model.UserId == null)
-{
+@{if (ViewBag.isAttending == false)
+    {
 <a asp-controller="Meetings" asp-action="JoinMeeting" asp-route-id="@Model.MeetingId"><button id="update-profile-button" type="submit" class="btn btn-primary">Join</button></a>}
 else
 {
-}
-
+} }
 <div>
     <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
     <a asp-action="Index">Back to List</a>
