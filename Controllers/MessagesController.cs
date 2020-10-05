@@ -1,8 +1,10 @@
 ﻿using Flashback.Data;
 using Flashback.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +14,17 @@ namespace Flashback.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public MessagesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+        public MessagesController(ApplicationDbContext ctx,
+                          UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Messages
         public async Task<IActionResult> Index()
@@ -45,7 +54,7 @@ namespace Flashback.Controllers
         }
 
         // GET: Messages/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
             ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "MeetingId");
             ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
@@ -57,10 +66,16 @@ namespace Flashback.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MessageId,UserId,TimeStamp,Messages,MeetingId")] Message message)
+        public async Task<IActionResult> Create([Bind("MessageId,UserId,TimeStamp,Messages,MeetingId")] Message message, int meetingid, DateTime timestamp)
         {
+            var user = await GetCurrentUserAsync();
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
+
+                message.UserId = user.Id;
+                message.MeetingId = meetingid;
+                message.TimeStamp = DateTime.Now;
                 _context.Add(message);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

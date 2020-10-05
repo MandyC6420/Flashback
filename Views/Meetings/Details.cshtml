@@ -49,6 +49,51 @@
 else
 {
 } }
+
+@*<form asp-action="Create" asp-controller="Messages">
+
+        <div class="form-group">
+
+            <input type="text" placeholder="Submit Question Here" />
+
+            <input type="submit" value="Submit Chat" class="btn btn-primary" />
+        </div>
+    </form>*@
+
+<p>
+    <a asp-action='Create' asp-controller="Messages" asp-route-id="@Model.MeetingId">Create a meeting messages</a>
+</p>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                Time of Entry
+            </th>
+            <th>
+                Message
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Messages)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.TimeStamp)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Messages)
+    </td>
+
+
+</tr>
+}
+    </tbody>
+</table>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
     <a asp-action="Index">Back to List</a>
