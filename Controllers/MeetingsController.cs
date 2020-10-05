@@ -83,6 +83,7 @@ namespace Flashback.Controllers
             var meeting = await _context.Meeting
                 .Include(m => m.Attendants)
                 .Include(m => m.User)
+                .Include(m => m.Messages)
                 .FirstOrDefaultAsync(m => m.MeetingId == id);
 
             var UserInMeeting = await _context.MeetingAttendant
@@ -100,9 +101,12 @@ namespace Flashback.Controllers
             }
 
             return View(meeting);
+
+
         }
-        //get a list of meeting attendant where the userid is = to the current user and then look at that list. whatever the var is named (List) List.Where(meetingInList.Id == meeting.id) 
-        //List.Count and after the Where list.count ==boolean if account is 0 if not in meeting 
+
+
+
         // GET: Meetings/Create
         public IActionResult Create()
         {
@@ -149,19 +153,19 @@ namespace Flashback.Controllers
             //}
 
 
-            //instance of MeetingAttendant 
-            //MeetingAttendant Attendees = new MeetingAttendant();
+            //instance of MeetingAttendant
+            //MeetingAttendant Attendants = new MeetingAttendant();
 
             //{
             //    MeetingId = MeetingId,
             //    UserId = UserId
             //};
-            //_context.Add(Attendees);
+            //_context.Add(Attendants);
             //await _context.SaveChangesAsync();
 
-            //ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "UserId", Attendees
+            //ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "UserId", Attendants
             //.MeetingId);
-            //return View(Attendees);
+            //return View(Attendants);
         }
 
         // GET: Meetings/Edit/5
