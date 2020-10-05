@@ -78,7 +78,7 @@ namespace Flashback.Controllers
                 message.TimeStamp = DateTime.Now;
                 _context.Add(message);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Meetings", new { id = meetingid });
             }
             ViewData["MeetingId"] = new SelectList(_context.Meeting, "MeetingId", "MeetingId", message.MeetingId);
             ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", message.UserId);
