@@ -19,9 +19,9 @@
             @*<th>
                     @Html.DisplayNameFor(model => model.User)
                 </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Meeting)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Meeting)
+                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -38,15 +38,14 @@
     @*<td>
             @Html.DisplayFor(modelItem => item.User.Id)
         </td>*@
-    <td>
-        @Html.DisplayFor(modelItem => item.Meeting.MeetingId)
-    </td>
+    @*<td>
+            @Html.DisplayFor(modelItem => item.Meeting.MeetingId)
+        </td>*@
     <td>
         <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
         <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |
         <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
     </td>
-</tr>
-}
+</tr>}
     </tbody>
 </table>
