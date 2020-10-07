@@ -245,8 +245,9 @@ namespace Flashback.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var meeting = await _context.Meeting.FindAsync(id);
-            _context.Meeting.Remove(meeting);
+            var user = await GetCurrentUserAsync();
+            var meetingAttendant = await _context.MeetingAttendant.FirstOrDefaultAsync(ma => ma.MeetingId == id && ma.UserId == user.Id);
+            _context.MeetingAttendant.Remove(meetingAttendant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
