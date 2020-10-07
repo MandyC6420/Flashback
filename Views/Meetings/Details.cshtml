@@ -63,38 +63,64 @@ else
 <p>
     <a asp-action='Create' asp-controller="Messages" asp-route-id="@Model.MeetingId">Create a meeting messages</a>
 </p>
-<table class="table">
+<div class="card">
+    <div class="card-header">
+        Messages
+    </div>
+    <div>
 
-    <thead>
-        <tr>
-            <th>
-                Time of Entry
-            </th>
-            <th>
-                Message
-            </th>
 
-        </tr>
-    </thead>
-    <tbody>
         @foreach (var item in @Model.Messages)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.TimeStamp)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Messages)
-    </td>
+
+<div class="card">
+
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>
+                @Html.DisplayFor(modelItem =>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               item.Messages)
+            </p>
+            <footer class="blockquote-footer">@Html.DisplayFor(modelItem => item.TimeStamp)</footer>
+        </blockquote>
+    </div>
+</div> @*<div class="card-body">@Html.DisplayFor(modelItem => item.TimeStamp)  @Html.DisplayFor(modelItem => item.Messages)</div>
+    <div class="list-group-item">@Html.DisplayFor(modelItem => item.TimeStamp)</div>*@}
+        </ul>
+    </div>
+    <table class="table">
+
+        <thead>
+            <tr>
+                @*<th>
+                        Time of Entry
+                    </th>
+                    <th>
+                        Message
+                    </th>*@
+
+                @*</tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @Model.Messages)
+                            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeStamp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Messages)
+                        </td>
 
 
-</tr>
-}
-    </tbody>
-</table>
+                    </tr>}*@
+                </tbody>
+    </table>
+    <div>
+        <a href="javascript: history.go(-1)">Go Back</a>
+    </div>
 
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        @*<a asp-action="Edit" asp-route-id="@Model.MeetingId">Edit</a> |*@
+        @*<a asp-action="Index">Back to List</a>*@
+    </div>
